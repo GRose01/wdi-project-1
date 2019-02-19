@@ -22,50 +22,46 @@ $(() => {
 
   // ALIENS
 
-  // set original aliens in an array
-  const $aliens = []
-
-  board.forEach((element, index) => {
-    if(index >= 20 && index <= 30) {
-      $(element).addClass('alien')
-    } if(index >= 39 && index <= 49) {
-      $(element).addClass('alien')
-    } if(index >= 58 && index <= 68) {
-      $(element).addClass('alien')
+  class Alien {
+    constructor(startingIndex) {
+      this.startingIndex = startingIndex
+      this.currentIndex = startingIndex
+      this.currentMoves = 0
+      this.isMovingRight = true
+      this.isHit = false
+      this.render()
+      this.movementId = null
+      this.move()
     }
-  })
 
-  const alienClass = document.querySelectorAll('.alien')
-  $aliens.push(alienClass)
+    render() {
+      $(board).eq(this.currentIndex).addClass('alien')
+    }
 
-  console.log($aliens)
+    move() {
+      this.movementId = setInterval(() => {
+        $(board).eq(this.currentIndex).removeClass('alien')
+        if (this.currentMoves < 6) {
+          this.currentMoves++
+          if(this.isMovingRight) {
+            this.currentIndex++
+          } else {
+            this.currentIndex--
+          }
+        } else {
+          this.currentIndex += 19
+          this.currentMoves = 0
+          this.isMovingRight = !this.isMovingRight
+        }
+        this.render()
+      }, 1000)
+    }
+  }
 
-  // const $alien = $('.alien')
+  // Place aliens and call object Alien
+  const aliens = [new Alien(20), new Alien(22), new Alien(24), new Alien(26), new Alien(28), new Alien(30), new Alien(40), new Alien(42), new Alien(44), new Alien(46), new Alien(48), new Alien(58), new Alien(60), new Alien(62), new Alien(64), new Alien(66), new Alien(68)]
 
-  // then move alien array left/right
-  // function alienMove {
-  //   alienClass.
-  // }
-
-  setInterval(() => {
-
-    // $gridbox.eq($alien[0].id++).addClass('alien')
-
-  }, 1000)
-
-
-  // $gridbox.eq($alien[0].id++).addClass('alien')
-  //
-  //
-
-
-
-
-
-  // function startGame() {
-  //   setInterval(timing, 1000)
-  // } put timings ina function called timing
-  // should this be put in the play button with the set up positions & score
+  console.log(aliens)
 
 
 
@@ -80,9 +76,7 @@ $(() => {
   // PLAYER
   const $player = $(board[playerCurrentIndex]).addClass('player')
 
-
   $(window).on('keydown', (e) => {
-
     switch(e.keyCode) {
       case 37:
         $gridbox.removeClass('player')
@@ -96,6 +90,7 @@ $(() => {
         break
       case 32:
         console.log('fire')
+        laser()
         break
       default:
         console.log('hit any other key')
@@ -108,12 +103,20 @@ $(() => {
     }
   })
 
+//  LASER
+// class Laser {
+//   constructor(firingIndex) {
+//     this.startingFire = firingIndex
+//     this.currentFire = firingIndex
+//     this.currentMoves = 0
+//     this.fire()
+//   }
+
+// when fired(space), rember the class and every 2.5 second, remover laser class and add one to index + 19
+// at every loop, check whether the div has a class of alien
+// if yes, change this.isHit of alien, and remove colour. and then end laser
+// if no, continue to next box
 
 
-
-
-// aliens to start top left
-// every half second they move left/right
-// when they hit a wall, all move downa nd start going opposite direction
 
 })

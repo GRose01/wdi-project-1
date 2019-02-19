@@ -37,4 +37,9 @@ button {
   height: 28px;
   background-color: blue;
   border: 1px solid black;
+  transition: all 0.2s linear;
+}
+
+.laser {
+  background-color: orange;
 }
