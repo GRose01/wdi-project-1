@@ -2,46 +2,61 @@ $(() => {
 
   // Build Grid
   const $grid = $('.grid')
+  const board = []
+
+
+  // player tracking
+  let playerCurrentIndex = 275
+
 
   for(let i = 0; i < 285 ; i++) {
     const $gridbox = document.createElement('div')
     $gridbox.className = 'gridbox'
     $gridbox.id = i
     $grid.append($gridbox)
+    board.push($gridbox)
   }
 
   const $gridbox = $('.gridbox')
 
+
   // ALIENS
 
-// set original aliens in an array
+  // set original aliens in an array
   const $aliens = []
 
-// this is the starting 5 aliens in an array
-  for(let x = 20; x<25.; x++) {
-    const startingAliens = $gridbox.eq(x).addClass('alien')
-    $aliens.push(startingAliens)
-  }
+  board.forEach((element, index) => {
+    if(index >= 20 && index <= 30) {
+      $(element).addClass('alien')
+    } if(index >= 39 && index <= 49) {
+      $(element).addClass('alien')
+    } if(index >= 58 && index <= 68) {
+      $(element).addClass('alien')
+    }
+  })
+
+  const alienClass = document.querySelectorAll('.alien')
+  $aliens.push(alienClass)
+
   console.log($aliens)
 
-  const $alien = $('.alien')
+  // const $alien = $('.alien')
 
-// then move alien array left/right
-  let move = 0
+  // then move alien array left/right
+  // function alienMove {
+  //   alienClass.
+  // }
+
   setInterval(() => {
-    $gridbox.removeClass('alien')
-    move++
-    
-    $(gridbox[ move]).addClass('alien')
+
     // $gridbox.eq($alien[0].id++).addClass('alien')
-    // const movement = $gridbox[$aliens + move]
-    // movement.addClass('alien')
-}, 1000)
+
+  }, 1000)
 
 
-// $gridbox.eq($alien[0].id++).addClass('alien')
-//
-//
+  // $gridbox.eq($alien[0].id++).addClass('alien')
+  //
+  //
 
 
 
@@ -63,56 +78,42 @@ $(() => {
 
 
   // PLAYER
-  const $starterPosition = $gridbox.eq(275).addClass('player')
-  const $player = $('.player')
+  const $player = $(board[playerCurrentIndex]).addClass('player')
+
 
   $(window).on('keydown', (e) => {
 
-    if ($player[0].id >= 266 && $player[0].id <= 284) {
-      switch(e.keyCode) {
-        case 37:
+    switch(e.keyCode) {
+      case 37:
         $gridbox.removeClass('player')
-        $gridbox.eq($player[0].id--).addClass('player')
+        playerCurrentIndex--
+        $(board).eq(playerCurrentIndex).addClass('player')
         break
-        case 39:
+      case 39:
         $gridbox.removeClass('player')
-        $gridbox.eq($player[0].id++).addClass('player')
+        playerCurrentIndex++
+        $(board).eq(playerCurrentIndex).addClass('player')
         break
-        case 32:
+      case 32:
         console.log('fire')
         break
-        default:
+      default:
         console.log('hit any other key')
-      }
-    // } else if ($player[0].id === 266) {
-    //   !($player[0].id++)
-    // } else if ($player[0].id === 284) {
-    //   !($player[0].id--)
+    }
+    if(playerCurrentIndex === 266) {
+      !playerCurrentIndex++
+    }
+    if(playerCurrentIndex === 284) {
+      !playerCurrentIndex--
     }
   })
 
-  //   switch(e.keyCode) {
-  //     case 37:
-  //     $gridbox.removeClass('player')
-  //     $gridbox.eq($player[0].id--).addClass('player')
-  //     break
-  //     case 39:
-  //     $gridbox.removeClass('player')
-  //     $gridbox.eq($player[0].id++).addClass('player')
-  //     break
-  //     case 32:
-  //     console.log('fire')
-  //     break
-  //     default:
-  //     console.log('hit any other key')
-  //   }
-  // })
 
 
 
 
-  // aliens to start top left
-  // every half second they move left/right
-  // when they hit a wall, all move downa nd start going opposite direction
+// aliens to start top left
+// every half second they move left/right
+// when they hit a wall, all move downa nd start going opposite direction
 
 })
