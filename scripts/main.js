@@ -13,7 +13,7 @@ $(() => {
   }
 
   const $gridbox = $('.gridbox')
-  const lasers = []
+  // const lasers = []
 
 
   // ALIENS
@@ -27,17 +27,20 @@ $(() => {
       this.render()
       this.movementId = null
       this.move()
-
     }
 
     render() {
-      $(board).eq(this.currentIndex).addClass('alien')
+      !this.isHit && $(board).eq(this.currentIndex).addClass('alien')
     }
 
     move() {
       this.movementId = setInterval(() => {
         if (this.currentIndex < 266) {
           $(board).eq(this.currentIndex).removeClass('alien')
+          if(this.isHit){
+            clearInterval(Laser.laserFire)
+            $(board).eq(this.isHit).removeClass('alien')
+          }
           if (this.currentMoves < 6) {
             this.currentMoves++
             if(this.isMovingRight) {
@@ -51,6 +54,9 @@ $(() => {
             this.isMovingRight = !this.isMovingRight
           }
           this.render()
+          if(this.isHit){
+            clearInterval(this.movementId)
+          }
         } else {
           alert('Game over!')
           // this.gamePlaying = false
@@ -64,7 +70,8 @@ $(() => {
   // Place aliens and call object Alien
   const aliens = [new Alien(20), new Alien(22), new Alien(24), new Alien(26), new Alien(28), new Alien(30), new Alien(40), new Alien(42), new Alien(44), new Alien(46), new Alien(48), new Alien(58), new Alien(60), new Alien(62), new Alien(64), new Alien(66), new Alien(68)]
 
-
+console.log()
+  // aliens.forEach(alien => alien.move)
 
   // PLAY BUTTON
   // when play button is clicked - create formation:
@@ -82,14 +89,13 @@ $(() => {
     this.gameplaying = false
     clearInterval(this.movementId)
     // does this need to refer to the alien?
-    $(window).on('keydown')
+    $(window).off('keydown')
   })
 
 
   // PLAYER
   let playerCurrentIndex = 275
-
-  const $player = $(board[playerCurrentIndex]).addClass('player')
+  $(board[playerCurrentIndex]).addClass('player')
 
   $(window).on('keydown', (e) => {
     switch(e.keyCode) {
@@ -105,10 +111,7 @@ $(() => {
         break
       case 32:
         console.log('fire')
-        const newLaser = new Laser(playerCurrentIndex).fire()
-        lasers.push(newLaser)
-
-        // console.log(playerCurrentIndex, '<------- playerCurrentIndex')
+        new Laser(playerCurrentIndex).fire()
         break
       default:
         console.log('hit any other key')
@@ -121,7 +124,7 @@ $(() => {
     }
   })
 
-//  LASER
+  //  LASER
   class Laser {
     constructor(firingIndex) {
       this.startingFire = firingIndex
@@ -132,38 +135,34 @@ $(() => {
 
     fire() {
       const laserFire = setInterval(() => {
+        let isHit = false
         $(board).eq(this.currentFire).removeClass('laser')
         if (this.currentFire >= 19) {
           this.currentFire -= 19
-          console.log(this.currentFire)
-          // if ($(this.currentFire).hasClass('alien')) {
-          //   console.log('HIT')
-          // } else {
-          $(board).eq(this.currentFire).addClass('laser')
-          // }
+          aliens.forEach( (alien, alienIndex) =>{
+
+            if (alien.currentIndex === this.currentFire){
+              alien.isHit = true
+              $(board).eq(alien.currentIndex).removeClass('alien laser')
+              // $(board).eq(this.currentFire).removeClass('laser')
+              clearInterval(laserFire)
+              aliens.splice(alienIndex, 1)
+              console.log('HIT!')
+              console.log(aliens)
+              isHit = true
+            } else {
+              !isHit && $(board).eq(this.currentFire).addClass('laser')
+            }
+          })
         } else {
           clearInterval(laserFire)
         }
         // console.log(this.currentFire, '<-------- this.currentFire')
-      }, 450)
+      }, 50)
+      // hitCheck()
     }
 
   }
-
-
-
-  // function checkHit(laserElement) {
-  //   const laserIndex = lasers.currentFire[laserElement]
-  //   for (let x = 0; x < aliens.position.length; x++) {
-  //     if (aliens.position[x] === laserIndex) {
-  //       aliens.position.splice(x, 1)
-  //       lasers.position.splice(laserElement, 1)
-  //       $(board[laserIndex]).classList.remove('alien', 'laser')
-  //       console.log('hit')
-  //     }
-  //   }
-  // }
-
 
 
 
