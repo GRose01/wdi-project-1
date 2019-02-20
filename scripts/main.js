@@ -24,7 +24,7 @@ $(() => {
 
   class Alien {
     constructor(startingIndex) {
-      this.startingIndex = startingIndex
+      // this.startingIndex = startingIndex
       this.currentIndex = startingIndex
       this.currentMoves = 0
       this.isMovingRight = true
@@ -58,6 +58,7 @@ $(() => {
     }
   }
 
+
   // Place aliens and call object Alien
   const aliens = [new Alien(20), new Alien(22), new Alien(24), new Alien(26), new Alien(28), new Alien(30), new Alien(40), new Alien(42), new Alien(44), new Alien(46), new Alien(48), new Alien(58), new Alien(60), new Alien(62), new Alien(64), new Alien(66), new Alien(68)]
 
@@ -90,7 +91,9 @@ $(() => {
         break
       case 32:
         console.log('fire')
-        laser()
+        new Laser(playerCurrentIndex).fire()
+
+        console.log(playerCurrentIndex, '<------- playerCurrentIndex')
         break
       default:
         console.log('hit any other key')
@@ -104,13 +107,39 @@ $(() => {
   })
 
 //  LASER
-// class Laser {
-//   constructor(firingIndex) {
-//     this.startingFire = firingIndex
-//     this.currentFire = firingIndex
-//     this.currentMoves = 0
-//     this.fire()
-//   }
+  class Laser {
+    constructor(firingIndex) {
+      this.startingFire = firingIndex
+      this.currentFire = firingIndex
+      console.log('fire', this.currentFire)
+      this.currentMoves = 0
+    }
+
+    fire() {
+      const laserFire = setInterval(() => {
+        $(board).eq(this.currentFire).removeClass('laser')
+        if (this.currentFire >= 19) {
+          // if ($gridbox.class !== 'alien') {
+          this.currentFire  -= 19
+          $(board).eq(this.currentFire).addClass('laser')
+          // this.currentIndex = playerCurrentIndex
+          // } else {
+          //   // detect collision
+          //   Alien.isHit = true
+          //   clearInterval(laserFire)
+          // }
+        } else {
+          clearInterval(laserFire)
+        }
+        console.log(this.currentFire, '<-------- this.currentFire')
+      }, 250)
+    }
+  }
+  //
+
+
+//  can only have one laser on the screen at once
+
 
 // when fired(space), rember the class and every 2.5 second, remover laser class and add one to index + 19
 // at every loop, check whether the div has a class of alien
