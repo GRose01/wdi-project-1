@@ -4,11 +4,20 @@ $(() => {
   const $grid = $('.grid')
   const board = []
   let aliens = []
+  const $nextLevel = $('.nextLevel')
+  const $winner = $('.winner')
+  const $playButton = $('.playButton')
+  const $quitButton = $('.quitButton')
+  const $playAgainButton = $('.playAgain')
+
 
   // SCORE
   const $score = $('.score')
   let currentScore = 0
   const $highscore = $('.highscore')
+  const currentHighscore = localStorage.getItem('highscore')
+  $highscore.text(currentHighscore ? currentHighscore : '0')
+  $score.text(currentScore ? currentScore : '0')
 
   for(let i = 0; i < 285 ; i++) {
     const $gridbox = document.createElement('div')
@@ -22,8 +31,6 @@ $(() => {
 
 
   // PLAY BUTTON
-  const $playButton = $('.playButton')
-
   $playButton.on('mousedown', () => {
     console.log('playing')
     setup()
@@ -31,14 +38,24 @@ $(() => {
   })
 
   // QUIT BUTTON
-  const $quitButton = $('.quitButton')
-
   $quitButton.on('click', () => {
     gameover()
-    console.log('quit')
-    clearInterval(this.movementId)
     $(window).off('keydown')
+    $playAgainButton.removeClass('executed')
   })
+
+  // PLAY AGAIN BUTTON
+  $playAgainButton.on('click', () => {
+    setup()
+    $playAgainButton.addClass('executed')
+  })
+
+  // // NEXT LEVEL BUTTON
+  // $nextLevel.on('click', () => {
+  //   levelUp()
+  //   $nextLevel.addClass('executed')
+  // })
+
 
 
   // ALIENS
@@ -59,7 +76,6 @@ $(() => {
     render() {
       !this.isHit && $(board).eq(this.currentIndex).addClass('alien')
     }
-
 
     move() {
       this.movementId = setInterval(() => {
@@ -137,7 +153,6 @@ $(() => {
       this.currentFire = firingIndex
       this.currentMoves = 0
       this.laserFire = null
-      this.isMovingUp = true
     }
 
     fire() {
@@ -152,11 +167,11 @@ $(() => {
               $(board).eq(alien.currentIndex).removeClass('alien laser')
               clearInterval(this.laserFire)
               aliens.splice(alienIndex, 1)
-              console.log(aliens)
               isHit = true
               currentScore += 10
               $score.text(currentScore)
               if (aliens.length === 0) {
+                // $nextLevel.removeClass('executed')
                 levelUp()
               }
             } else {
@@ -172,7 +187,9 @@ $(() => {
 
   function levelUp() {
     if(intervalTime === 200) {
-      alert('you won give up')
+      alert('You won give up')
+      $gridbox.addClass('executed')
+      $winner.removeClass('executed')
     } else {
       intervalTime -= 200
       setup()
@@ -182,9 +199,11 @@ $(() => {
   function gameover() {
     checkHighscore()
     alert('GAME OVER')
+    // $(window).off('keydown')
     aliens.forEach((alien) => clearInterval(alien.movementId))
-    clearInterval(laser.laserFire)
-    $(window).off('keydown')
+    // clearInterval(laser.laserFire)
+    $(aliens).addClass('executed')
+    $playAgainButton.removeClass('executed')
   }
 
   function checkHighscore() {

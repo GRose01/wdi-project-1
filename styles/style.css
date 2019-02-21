@@ -1,7 +1,20 @@
 body {
-  background-color: lightblue;
+  background-image: url('../images/tropical-background.png');
   box-sizing: border-box;
   text-align: center;
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 60px;
+  font-weight: bold;
+
+}
+
+p {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 auto;
 }
 
 .stats {
@@ -13,10 +26,14 @@ body {
 .grid {
   display: flex;
   flex-flow: row wrap;
-  margin: 5%;
+  justify-content: center;
+  margin: 2%;
   height: 450px;
   width: 760px;
-  border: 1px solid black;
+  margin-left: 250px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 5px;
   position: absolute;
   z-index: 0;
 }
@@ -29,35 +46,55 @@ body {
 
 
 .playButton {
-  position: absolute;
+  /* position: absolute;
   z-index: 2;
   margin-top: 200px;
-  margin-left: -80px;
+  margin-left: -100px; */
   font-size: 80px;
+  background-color: white;
+  border-color: white;
+}
 
+.quitButton {
+  margin-top: 500px;
+  margin-left: 650px;
+  font-size: 20px;
+  background-color: white;
+  border-color: black;
 }
 
 .executed {
   visibility: hidden;
 }
 
+.playAgain {
+  font-size: 20px;
+  background-color: white;
+  border-color: black;
+}
+
+.nextLevel {
+  font-size: 20px;
+  background-color: white;
+  border-color: black;  
+}
+
 .player {
-  background-color: hotpink;
+  background-image: url('../images/monkey.png');
+  background-repeat: no-repeat;
+  text-align: center;
 }
 
 .alien {
   width: 38px;
   height: 28px;
-  background-color: blue;
-  /* background-image: url('images/icons8-mite-48.png'); */
-
-  transition: all 0.2s linear; */
+  background-image: url('../images/farmer.png');
+  transition: all 0.2s linear;
 }
 
 .laser {
-  background-color: orange;
-}
+  background-image: url('../images/banana.png');
+  background-repeat: no-repeat;
+  text-align: center;
 
-.quitButton {
-  margin-top: 500px;
 }
