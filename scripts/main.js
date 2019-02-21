@@ -3,6 +3,12 @@ $(() => {
   // Build Grid
   const $grid = $('.grid')
   const board = []
+  let aliens = []
+
+  // SCORE
+  const $score = $('.score')
+  let currentScore = 0
+
 
   for(let i = 0; i < 285 ; i++) {
     const $gridbox = document.createElement('div')
@@ -13,10 +19,31 @@ $(() => {
   }
 
   const $gridbox = $('.gridbox')
-  // const lasers = []
+
+
+  // PLAY BUTTON
+  const $playButton = $('.playButton')
+
+  $playButton.on('mousedown', () => {
+    console.log('playing')
+    setup()
+    $playButton.addClass('executed')
+  })
+
+  // QUIT BUTTON
+  const $quitButton = $('.quitButton')
+
+  $quitButton.on('click', () => {
+    gameover()
+    console.log('quit')
+    clearInterval(this.movementId)
+    $(window).off('keydown')
+  })
 
 
   // ALIENS
+
+  let intervalTime = 1000
 
   class Alien {
     constructor(startingIndex) {
@@ -33,6 +60,7 @@ $(() => {
       !this.isHit && $(board).eq(this.currentIndex).addClass('alien')
     }
 
+
     move() {
       this.movementId = setInterval(() => {
         if (this.currentIndex < 266) {
@@ -41,7 +69,7 @@ $(() => {
             clearInterval(Laser.laserFire)
             $(board).eq(this.isHit).removeClass('alien')
           }
-          if (this.currentMoves < 6) {
+          if (this.currentMoves < 4) {
             this.currentMoves++
             if(this.isMovingRight) {
               this.currentIndex++
@@ -59,39 +87,19 @@ $(() => {
           }
         } else {
           alert('Game over!')
-          // this.gamePlaying = false
+          gameover()
           clearInterval(this.movementId)
         }
-
-      }, 1000)
+      }, intervalTime)
     }
   }
 
   // Place aliens and call object Alien
-  const aliens = [new Alien(20), new Alien(22), new Alien(24), new Alien(26), new Alien(28), new Alien(30), new Alien(40), new Alien(42), new Alien(44), new Alien(46), new Alien(48), new Alien(58), new Alien(60), new Alien(62), new Alien(64), new Alien(66), new Alien(68)]
+  function setup() {
+    aliens = [new Alien(20), new Alien(22), new Alien(24), new Alien(26), new Alien(28), new Alien(30), new Alien(32), new Alien(40), new Alien(42), new Alien(44), new Alien(46), new Alien(48), new Alien(50), new Alien(58), new Alien(60), new Alien(62), new Alien(64), new Alien(66), new Alien(68), new Alien(70)]
+  }
 
-console.log()
-  // aliens.forEach(alien => alien.move)
-
-  // PLAY BUTTON
-  // when play button is clicked - create formation:
-  const $playButton = $('.playButton')
-
-  $playButton.on('click', (e) => {
-    console.log('playing')
-    this.gameplaying = true
-
-  })
-  const $quitButton = $('.quitButton')
-
-  $quitButton.on('click', (e) => {
-    console.log('quit')
-    this.gameplaying = false
-    clearInterval(this.movementId)
-    // does this need to refer to the alien?
-    $(window).off('keydown')
-  })
-
+  let laser = null
 
   // PLAYER
   let playerCurrentIndex = 275
@@ -110,11 +118,9 @@ console.log()
         $(board).eq(playerCurrentIndex).addClass('player')
         break
       case 32:
-        console.log('fire')
-        new Laser(playerCurrentIndex).fire()
+        laser = new Laser(playerCurrentIndex).fire()
         break
       default:
-        console.log('hit any other key')
     }
     if(playerCurrentIndex === 266) {
       !playerCurrentIndex++
@@ -129,40 +135,57 @@ console.log()
     constructor(firingIndex) {
       this.startingFire = firingIndex
       this.currentFire = firingIndex
-      // console.log('fire', this.currentFire)
       this.currentMoves = 0
+      this.laserFire = null
+      this.isMovingUp = true
     }
 
     fire() {
-      const laserFire = setInterval(() => {
+      this.laserFire = setInterval(() => {
         let isHit = false
         $(board).eq(this.currentFire).removeClass('laser')
         if (this.currentFire >= 19) {
           this.currentFire -= 19
-          aliens.forEach( (alien, alienIndex) =>{
-
+          aliens.forEach( (alien, alienIndex) => {
             if (alien.currentIndex === this.currentFire){
               alien.isHit = true
               $(board).eq(alien.currentIndex).removeClass('alien laser')
-              // $(board).eq(this.currentFire).removeClass('laser')
-              clearInterval(laserFire)
+              clearInterval(this.laserFire)
               aliens.splice(alienIndex, 1)
-              console.log('HIT!')
               console.log(aliens)
               isHit = true
+              currentScore += 10
+              $score.text(currentScore)
+              if (aliens.length === 0) {
+                levelUp()
+              }
             } else {
               !isHit && $(board).eq(this.currentFire).addClass('laser')
             }
           })
         } else {
-          clearInterval(laserFire)
+          clearInterval(this.laserFire)
         }
-        // console.log(this.currentFire, '<-------- this.currentFire')
       }, 50)
-      // hitCheck()
     }
-
   }
+
+  function levelUp() {
+    if(intervalTime === 200) {
+      alert('you won give up')
+    } else {
+      intervalTime -= 200
+      setup()
+    }
+  }
+
+  function gameover() {
+    alert('GAME OVER')
+    aliens.forEach((alien) => clearInterval(alien.movementId))
+    clearInterval(laser.laserFire)
+    $(window).off('keydown')
+  }
+
 
 
 
