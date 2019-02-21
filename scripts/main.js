@@ -8,7 +8,7 @@ $(() => {
   // SCORE
   const $score = $('.score')
   let currentScore = 0
-
+  const $highscore = $('.highscore')
 
   for(let i = 0; i < 285 ; i++) {
     const $gridbox = document.createElement('div')
@@ -180,13 +180,21 @@ $(() => {
   }
 
   function gameover() {
+    checkHighscore()
     alert('GAME OVER')
     aliens.forEach((alien) => clearInterval(alien.movementId))
     clearInterval(laser.laserFire)
     $(window).off('keydown')
   }
 
-
+  function checkHighscore() {
+    const currentHighscore = localStorage.getItem('highscore')
+    if (currentScore > currentHighscore) {
+      alert('NEW HIGHSCORE')
+      localStorage.setItem('highscore', currentScore)
+      $highscore.text(currentScore)
+    }
+  }
 
 
 })
