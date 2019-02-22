@@ -4,11 +4,13 @@ $(() => {
   const $grid = $('.grid')
   const board = []
   let aliens = []
+  const $alien = $('.alien')
   const $nextLevel = $('.nextLevel')
   const $winner = $('.winner')
   const $playButton = $('.playButton')
   const $quitButton = $('.quitButton')
   const $playAgainButton = $('.playAgain')
+  const $gameOver = $('.gameOver')
 
 
   // SCORE
@@ -48,6 +50,7 @@ $(() => {
   $playAgainButton.on('click', () => {
     setup()
     $playAgainButton.addClass('executed')
+    $gameOver.addClass('executed')
   })
 
   // // NEXT LEVEL BUTTON
@@ -55,7 +58,6 @@ $(() => {
   //   levelUp()
   //   $nextLevel.addClass('executed')
   // })
-
 
 
   // ALIENS
@@ -102,7 +104,6 @@ $(() => {
             clearInterval(this.movementId)
           }
         } else {
-          alert('Game over!')
           gameover()
           clearInterval(this.movementId)
         }
@@ -187,7 +188,8 @@ $(() => {
 
   function levelUp() {
     if(intervalTime === 200) {
-      alert('You won give up')
+      intervalTime -= 100
+    } else if (intervalTime === 100) {
       $gridbox.addClass('executed')
       $winner.removeClass('executed')
     } else {
@@ -198,11 +200,13 @@ $(() => {
 
   function gameover() {
     checkHighscore()
-    alert('GAME OVER')
-    // $(window).off('keydown')
+    $gridbox.removeClass('alien')
+    $(window).off('keydown')
     aliens.forEach((alien) => clearInterval(alien.movementId))
-    // clearInterval(laser.laserFire)
-    $(aliens).addClass('executed')
+    // for (let i = 0; i < 500; i++) {
+    //   window.clearInterval(i)
+    // }
+    $gameOver.removeClass('executed')
     $playAgainButton.removeClass('executed')
   }
 

@@ -8,7 +8,7 @@ body {
 h1 {
   font-size: 60px;
   font-weight: bold;
-
+  margin: 25px;
 }
 
 p {
@@ -27,7 +27,7 @@ p {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  margin: 2%;
+  margin: 1%;
   height: 450px;
   width: 760px;
   margin-left: 250px;
@@ -44,39 +44,50 @@ p {
   width: 40px;
 }
 
-
 .playButton {
-  /* position: absolute;
+  position: absolute;
   z-index: 2;
-  margin-top: 200px;
-  margin-left: -100px; */
+  margin-top: 250px;
+  margin-left: -80px;
   font-size: 80px;
   background-color: white;
-  border-color: white;
+  border: 4px black solid;
 }
 
 .quitButton {
-  margin-top: 500px;
+  margin-top: 480px;
   margin-left: 650px;
   font-size: 20px;
   background-color: white;
   border-color: black;
 }
 
-.executed {
-  visibility: hidden;
-}
-
 .playAgain {
-  font-size: 20px;
+  position: absolute;
+  z-index: 2;
+  margin-top: 300px;
+  margin-left: -100px;
+  font-size: 40px;
   background-color: white;
   border-color: black;
 }
 
-.nextLevel {
-  font-size: 20px;
+.winner .gameOver {
+  position: absolute;
+  z-index: 2;
+  margin-top: 250px;
+  font-size: 80px;
   background-color: white;
-  border-color: black;  
+  border-color: white;
+}
+
+.executed {
+  visibility: hidden;
+}
+
+.container {
+  width: 100%;
+  z-index: 0;
 }
 
 .player {
@@ -88,7 +99,8 @@ p {
 .alien {
   width: 38px;
   height: 28px;
-  background-image: url('../images/farmer.png');
+  background-image: url('../images/monkey.png');
+  background-size: cover;
   transition: all 0.2s linear;
 }
 
@@ -96,5 +108,4 @@ p {
   background-image: url('../images/banana.png');
   background-repeat: no-repeat;
   text-align: center;
-
 }
