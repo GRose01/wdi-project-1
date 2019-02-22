@@ -5,7 +5,6 @@ $(() => {
   const board = []
   let aliens = []
   const $alien = $('.alien')
-  const $nextLevel = $('.nextLevel')
   const $winner = $('.winner')
   const $playButton = $('.playButton')
   const $quitButton = $('.quitButton')
@@ -34,7 +33,6 @@ $(() => {
 
   // PLAY BUTTON
   $playButton.on('mousedown', () => {
-    console.log('playing')
     setup()
     $playButton.addClass('executed')
   })
@@ -42,7 +40,6 @@ $(() => {
   // QUIT BUTTON
   $quitButton.on('click', () => {
     gameover()
-    $(window).off('keydown')
     $playAgainButton.removeClass('executed')
   })
 
@@ -51,6 +48,7 @@ $(() => {
     setup()
     $playAgainButton.addClass('executed')
     $gameOver.addClass('executed')
+    $(window).on('keydown')
   })
 
   // // NEXT LEVEL BUTTON
@@ -186,6 +184,8 @@ $(() => {
     }
   }
 
+  // GAME FUNCTIONS
+  
   function levelUp() {
     if(intervalTime === 200) {
       intervalTime -= 100
@@ -201,8 +201,8 @@ $(() => {
   function gameover() {
     checkHighscore()
     $gridbox.removeClass('alien')
-    $(window).off('keydown')
     aliens.forEach((alien) => clearInterval(alien.movementId))
+    // $(window).off('keydown')
     // for (let i = 0; i < 500; i++) {
     //   window.clearInterval(i)
     // }
