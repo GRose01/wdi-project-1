@@ -193,6 +193,7 @@ $(() => {
   function levelUp() {
     if(intervalTime === 200) {
       intervalTime -= 100
+      setup()
     } else if (intervalTime === 100) {
       $gridbox.addClass('executed')
       $winner.removeClass('executed')
