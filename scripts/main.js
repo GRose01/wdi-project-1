@@ -1,6 +1,6 @@
 $(() => {
 
-  // Build Grid
+  // UNIVERSAL VARIABLES
   const $grid = $('.grid')
   const board = []
   let aliens = []
@@ -20,6 +20,7 @@ $(() => {
   $highscore.text(currentHighscore ? currentHighscore : '0')
   $score.text(currentScore ? currentScore : '0')
 
+  // BUILD GRID
   for(let i = 0; i < 285 ; i++) {
     const $gridbox = document.createElement('div')
     $gridbox.className = 'gridbox'
@@ -45,10 +46,14 @@ $(() => {
 
   // PLAY AGAIN BUTTON
   $playAgainButton.on('click', () => {
+    intervalTime = 1000
+    currentScore = 0
+    $score.text(currentScore)
     setup()
+    playerCurrentIndex = 275
     $playAgainButton.addClass('executed')
     $gameOver.addClass('executed')
-    $(window).on('keydown')
+    // $(window).on('keydown')
   })
 
   // // NEXT LEVEL BUTTON
@@ -109,7 +114,6 @@ $(() => {
     }
   }
 
-  // Place aliens and call object Alien
   function setup() {
     aliens = [new Alien(20), new Alien(22), new Alien(24), new Alien(26), new Alien(28), new Alien(30), new Alien(32), new Alien(40), new Alien(42), new Alien(44), new Alien(46), new Alien(48), new Alien(50), new Alien(58), new Alien(60), new Alien(62), new Alien(64), new Alien(66), new Alien(68), new Alien(70)]
   }
@@ -185,7 +189,7 @@ $(() => {
   }
 
   // GAME FUNCTIONS
-  
+
   function levelUp() {
     if(intervalTime === 200) {
       intervalTime -= 100
@@ -202,12 +206,12 @@ $(() => {
     checkHighscore()
     $gridbox.removeClass('alien')
     aliens.forEach((alien) => clearInterval(alien.movementId))
-    // $(window).off('keydown')
-    // for (let i = 0; i < 500; i++) {
-    //   window.clearInterval(i)
-    // }
     $gameOver.removeClass('executed')
     $playAgainButton.removeClass('executed')
+    // $(window).off('keydown')
+    // for (let i = 0; i < 500; i++) {
+      //   window.clearInterval(i)
+      // }
   }
 
   function checkHighscore() {
