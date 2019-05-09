@@ -4,7 +4,6 @@ $(() => {
   const $grid = $('.grid')
   const board = []
   let aliens = []
-  const $alien = $('.alien')
   const $winner = $('.winner')
   const $playButton = $('.playButton')
   const $quitButton = $('.quitButton')

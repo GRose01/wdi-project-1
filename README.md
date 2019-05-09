@@ -1,6 +1,6 @@
 # General Assembly WDI Project 1: Simple Front End game
 
-[Portfolio Link](grose01.github.io/wdi-project-1)
+[Monkey Invaders Link](grose01.github.io/wdi-project-1)
 
 Monkey Invaders was my take on the classic arcade game Space Invaders. This was my first project on General Assembly's Web Development Immersive Course. It was an individual project after 3 weeks of learning HTML, CSS and JavaScript.
 
@@ -85,6 +85,7 @@ move() {
 The player moved left/right and fired using keypresses. I used a switch method within the bottom level of gridboxes.
 
 #### Featured piece of code 1
+
 This was a big challenge I had in the project. When the alien fires the fire moves up the grid by adding and removing the 'laser' class to the 'gridbox' divs, the challenge came when trying to identify if a div contained both the class of alien and laser and that exact moment in time. this required the alien to die and the score to increase.
 
 ```
@@ -118,9 +119,11 @@ fire() {
 ```
 
 ### Styling
+
 I used CSS to style my game, working on responsiveness and a neat clean finish. External images are used for icons.
 
 ---
+
 ## Screenshots
 
 The game begins by clicking the 'Play' in the middle of the grid.
@@ -133,6 +136,20 @@ This shows the formation of the monkeys.
 ![layout](images/screenshotLayout.png)
 
 ---
+
+## Wins and Challenges
+
+Wins:
+* Getting a functioning game to work complete with levels and a scoring system.
+* A simple finish, exactly how I wanted, however I only added responsive design at the end of the styling process therefore the site is not as responsive as I would like.
+* Using setIntervals and clearInterval for functionality.
+
+Challenges:
+* Creating and moving the aliens in formation so that when one is killed, it keeps the formation.
+* Successfully identifying when the laster hits the alien and therefore 'kills' the alien.
+
+---
+
 ## Future Features
 
 If I had more time, I would have liked to add:
@@ -141,3 +158,9 @@ If I had more time, I would have liked to add:
 * Give the player lives
 * Create a mothership with more points
 * Improve on responsiveness
+
+---
+
+## Key Learnings
+
+The learnings in this project were endless, it was my first development project and so it was all new. I overcame issues in both JavaScript functionality and CSS styling. For me the process of implementing new things as a continuous trialing process taught me not to fear asking for help! I now am much more comfortable with using CSS and front-end function using JavaScript.
